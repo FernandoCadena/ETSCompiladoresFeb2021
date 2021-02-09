@@ -1,31 +1,40 @@
+%{
+#include<stdio.h>
+#include<stdlib.h>
+#include "sintactico.tab.h"
 
+%}
 /*
 Analizador Lexico
 */
 letras	[a-zA-Z]
-digitos	[0-9]
+digito	[0-9]
 espacio [-]
 
+
 %%
-[>]{2}[<]{1}	{printf("int");}
-[<]{2}[>]{1}	{printf("char");}
-[+]{3}		{printf("incremento");}
-[+]{2}		{printf("suma");}
-[-]{2}		{printf("resta");}
-[-]{3}		{printf("decremento");}
-[-][>]		{printf("asignacion");}
-[+][>]		{printf("mayor-que");}
-[+][<]		{printf("menor-que");}
-[<][>]		{printf("igual");}
-[&][<]		{printf("and");}
-[|][<]		{printf("or");}
-[!][<]		{printf("not");}
-[+][|][+]	{printf("concatenacion");}
-[-]{1}		{printf("espacio");}
-[1-9]{digito}*	{printf("CONSTANTE");}
-{letras}+	{printf("ID");}
-{letras}+{digito}* {printf("ID");}
-[>]{3}		{printf("for");}
-[>][<]    {printf("if");}
-[>][-][<] {printf("else");}
+
+[>]{2}[<]{1}	{return INT;}
+[<]{2}[>]{1}	{return CHAR;}
+[+]{3}		{return INC;}
+[+]{2}		{return SUMA;}
+[-]{2}		{return RESTA;}
+[-]{3}		{return DEC;}
+[-][>]		{return ASING;}
+[+][>]		{return MAYORQ;}
+[+][<]		{return MENORQ;}
+[<][>]		{return IGUAL;}
+[&][<]		{return AND;}
+[|][<]		{return OR;}
+[!][<]		{return NOT;}
+[+][|][+]	{return CONCAT;}
+[-]{1}		{return espacio;}
+[1-9]+	{yylval=atoi(yytext); return NUMERO;}
+{letras}+	{return ID;}
+{letras}+{digito}* {return ID;}
+[>]{3}		{return FOR;}
+[>][<]    {return IF;}
+[>][-][<] {return ELSE;}
+[\n]	{return '\n';}
+[?]	{return SALIDA;}
 %%
