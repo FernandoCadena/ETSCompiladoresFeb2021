@@ -1,5 +1,7 @@
+#include "sintactico.tab.h"
 int main(void) 
 {
-	yylex();
+	//yylex();
+	yyparse();
 	return 0;
 }
